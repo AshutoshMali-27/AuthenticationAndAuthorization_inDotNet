@@ -1,4 +1,5 @@
 using DotnetLearn.Authentication;
+using DotnetLearn.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -8,14 +9,14 @@ using System.Text;
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
+builder.Services.AddControllers().AddNewtonsoftJson();
 
 
 
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddScoped<IMLogger, LogDB>();
 var provider = builder.Services.BuildServiceProvider();
 var config = provider.GetService<IConfiguration>();
 builder.Services.AddDbContext<ApplicationDBContext>(option => option.UseSqlServer(config.GetConnectionString("dbcs")));
